@@ -63,7 +63,7 @@ class App extends Component {
     currentCard: ""
   };
   //function to randomize / shuffle the starting deck
-  //this is only here to prevent the hassle of having to shuffle the deck multiple times
+  //this is only here to prevent the hassle of having to shuffle the deck multiple times at the start
   shuffleArray(array) {
     let holder = [...array];
     for (let i = holder.length - 1; i > 0; i--) {
@@ -76,8 +76,8 @@ class App extends Component {
   //function to imitate hand shuffling
   handShuffle(array) {
     //splits deck in half
-    let array2 = [...array];
-    array2 = array.splice(0, Math.ceil(array.length / 2));
+    let array2 = [];
+    array2 = array.splice(0, 25);
     let array3 = [];
     //interleaves cards
     for (let i = 0; i < array.length; i++) {
@@ -85,6 +85,14 @@ class App extends Component {
     }
     //set back to original deck
     this.setState({ deck: array3 });
+  }
+
+  //function to imitate splitting the deck and stacking the bottom half on top
+  splitDeck(array) {
+    let halfDeck = [];
+    halfDeck = array.splice(0, 25);
+    let postSplit = array.concat(halfDeck);
+    this.setState({deck: postSplit})
   }
 
   //picks the top card from the deck
@@ -105,7 +113,7 @@ class App extends Component {
       this.setState({ discard: second });
     }
   }
-
+  //shuffles the deck when first loaded
   componentDidMount() {
     this.shuffleArray(this.state.deck);
   }
